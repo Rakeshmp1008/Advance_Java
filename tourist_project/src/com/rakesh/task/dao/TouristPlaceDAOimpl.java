@@ -6,40 +6,38 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
-import com.rakesh.task.entity.RailwayStationEntity;
+import com.rakesh.task.entity.TouristPlaceEntity;
 import com.rakesh.tour.Util.EMFUtil;
 
-public class RailwayStationDAOimpl implements RailwayStationDAO {
+public class TouristPlaceDAOimpl implements TouristPlaceDAO {
 
 	@Override
-	public void addAll(List<RailwayStationEntity> entities) {
+	public void addAll(List<TouristPlaceEntity> entities) {
 
-		EntityManager manager = EMFUtil.getEntityManagerFactory().createEntityManager();
-		for (RailwayStationEntity railway : entities) {
+		for (TouristPlaceEntity touristPlaceEntity : entities) {
+			EntityManager manager = EMFUtil.getEntityManagerFactory().createEntityManager();
+			manager.persist(touristPlaceEntity);
 			EntityTransaction transaction = manager.getTransaction();
 			transaction.begin();
 
 			int flushcount = 0;
 			try {
-				for (int i = 0; i < 74; i++) {
+				for (int i = 0; i < 50; i++) {
+					
 					if (flushcount == 10) {
-						manager.persist(railway);
+						manager.persist(touristPlaceEntity);
 						manager.flush();
 						manager.clear();
-						
 					}
-					manager.flush();
+					manager.clear();
 					flushcount++;
-
 				}
 
 			} catch (PersistenceException e) {
 				e.printStackTrace();
 				transaction.rollback();
 			}
-
 			transaction.commit();
-
 		}
 	}
 

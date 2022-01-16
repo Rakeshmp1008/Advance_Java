@@ -6,31 +6,33 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
-import com.rakesh.task.entity.RailwayStationEntity;
+import com.rakesh.task.entity.MedicineEntity;
 import com.rakesh.tour.Util.EMFUtil;
 
-public class RailwayStationDAOimpl implements RailwayStationDAO {
+public class MedicineDAOimpl implements MedicineDAO {
 
 	@Override
-	public void addAll(List<RailwayStationEntity> entities) {
+	public void addAll(List<MedicineEntity> entities) {
 
-		EntityManager manager = EMFUtil.getEntityManagerFactory().createEntityManager();
-		for (RailwayStationEntity railway : entities) {
+		for (MedicineEntity medicineEntity : entities) {
+			EntityManager manager = EMFUtil.getEntityManagerFactory().createEntityManager();
+			manager.persist(medicineEntity);
+
 			EntityTransaction transaction = manager.getTransaction();
 			transaction.begin();
 
 			int flushcount = 0;
 			try {
-				for (int i = 0; i < 74; i++) {
+				for (int i = 0; i < 40; i++) {
+
 					if (flushcount == 10) {
-						manager.persist(railway);
+						manager.persist(medicineEntity);
 						manager.flush();
 						manager.clear();
-						
-					}
-					manager.flush();
-					flushcount++;
 
+					}
+					manager.clear();
+					flushcount++;
 				}
 
 			} catch (PersistenceException e) {
@@ -39,8 +41,8 @@ public class RailwayStationDAOimpl implements RailwayStationDAO {
 			}
 
 			transaction.commit();
-
 		}
+
 	}
 
 }
