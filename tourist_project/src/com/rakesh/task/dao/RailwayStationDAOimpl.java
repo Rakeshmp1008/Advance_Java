@@ -22,6 +22,7 @@ public class RailwayStationDAOimpl implements RailwayStationDAO {
 			int flushcount = 0;
 			try {
 				for (int i = 0; i < 74; i++) {
+					
 					if (flushcount == 10) {
 						manager.persist(railway);
 						manager.flush();

@@ -21,6 +21,7 @@ public class AirportDAOimpl implements AirPortDAO {
 			int flushcount = 0;
 			try {
 				for (int i = 0; i < 50; i++) {
+					
 					if (flushcount == 10) {
 						manager.persist(airportEntity);
 						manager.flush();
